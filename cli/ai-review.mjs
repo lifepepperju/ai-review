@@ -14,6 +14,8 @@
 //   ai-review clear   <file>                ファイルのコメントを全削除
 import { readFileSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import {
   findRoot,
   rootForStorePath,
@@ -137,6 +139,7 @@ const keyFor = (file) => keyForIn(root, file);
 if (cmd === "open" || bareFile) {
   const file = bareFile ?? rest[0];
   if (!file) die("usage: ai-review open <file>");
+  ensureDeps();
   const { serve } = await import("./serve.mjs");
   await serve({
     file,
@@ -313,6 +316,27 @@ root/store:
 
 store: ${storePath}`);
 }
+}
+
+// node_modules が消えると markdown-it を解決できず起動直後に落ちる（無音で終了し
+// 「クリックしても何も起きない」に見える）。消える原因が特定できていないため、
+// 無ければその場で入れ直してから続行する。2026-07-17 / 2026-09-04 に発生。
+function ensureDeps() {
+  const pkgRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  const marker = resolve(pkgRoot, "node_modules", "markdown-it");
+  if (existsSync(marker)) return;
+
+  console.error("\n  部品(node_modules)が見当たりません。自動で入れ直します…\n");
+  // AppleScript(do shell script)経由だと PATH が最小限で npm を拾えないため絶対パスで探す。
+  const candidates = [resolve(dirname(process.execPath), "npm"), "/opt/homebrew/bin/npm", "npm"];
+  const npmBin = candidates.find((c) => c === "npm" || existsSync(c));
+  const r = spawnSync(npmBin, ["install", "--omit=dev", "--no-audit", "--no-fund"], {
+    cwd: pkgRoot,
+    stdio: "inherit",
+  });
+  if (r.status !== 0 || !existsSync(marker))
+    die(`部品の自動インストールに失敗しました。手動で: cd "${pkgRoot}" && npm install`);
+  console.error("\n  復旧しました。続けます。\n");
 }
 
 function die(msg) {

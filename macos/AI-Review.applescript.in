@@ -1,0 +1,35 @@
+-- AI Review — open a file in the AI Review Comments browser review UI.
+--
+-- ※これは「配布用テンプレート」です。ロジックは AI-Review.applescript と同じですが、
+--   @@NODE_BIN@@ と @@CLI_PATH@@ の2か所だけプレースホルダにしてあります。
+--   install.command がビルド時に、その人のMac上の実際のパスへ自動で置き換えます。
+--   （手元で直接 osacompile しないでください。install.command を使ってください。）
+--
+-- REQUIRES: this app must be granted Full Disk Access
+-- (System Settings → Privacy & Security → Full Disk Access),
+-- otherwise it cannot read files under ~/Documents (macOS TCC / EPERM).
+
+property nodeBin : "@@NODE_BIN@@"
+property cliPath : "@@CLI_PATH@@"
+
+on launchReview(posixPath)
+	set q to quoted form of posixPath
+	-- nohup + & : detach so the review server keeps running.
+	-- Logs node output to ~/Library/Logs/ai-review.log (non-protected location,
+	-- so errors are visible even if Documents access is denied).
+	do shell script "mkdir -p \"$HOME/Library/Logs\"; nohup " & quoted form of nodeBin & " " & quoted form of cliPath & " open " & q & " >> \"$HOME/Library/Logs/ai-review.log\" 2>&1 &"
+end launchReview
+
+-- Called when a file is dropped on / opened with this app (the normal path).
+on open theFiles
+	repeat with f in theFiles
+		my launchReview(POSIX path of f)
+	end repeat
+	-- Do NOT quit: this is a background agent (LSUIElement). Quitting would
+	-- also terminate the review server we just launched.
+end open
+
+-- Called only when launched directly with no file.
+on run
+	display notification "レビューしたいファイルを右クリック →「このアプリケーションで開く」→ AI Review で開いてください。" with title "AI Review"
+end run
