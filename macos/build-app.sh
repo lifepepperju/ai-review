@@ -19,7 +19,7 @@ mkdir -p "$HOME/Applications"
 rm -rf "$APP"
 osacompile -o "$APP" "$SRC"
 
-"$PB" -c "Set :CFBundleIdentifier co.lifepepper.aireview" "$PLIST" 2>/dev/null || true
+"$PB" -c "Set :CFBundleIdentifier com.example.aireview" "$PLIST" 2>/dev/null || true
 "$PB" -c "Add :LSUIElement bool true" "$PLIST" 2>/dev/null || "$PB" -c "Set :LSUIElement true" "$PLIST" 2>/dev/null || true
 
 "$PB" -c "Delete :CFBundleDocumentTypes" "$PLIST" 2>/dev/null || true

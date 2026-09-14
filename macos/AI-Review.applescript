@@ -6,8 +6,11 @@
 -- (System Settings → Privacy & Security → Full Disk Access),
 -- otherwise it cannot read files under ~/Documents (macOS TCC / EPERM).
 
+-- NOTE: this file is a manual/legacy template that needs a real absolute path
+-- baked in before `osacompile` can use it — prefer `macos/install.command`
+-- instead, which auto-detects both paths for you.
 property nodeBin : "/opt/homebrew/bin/node"
-property cliPath : "/Users/junusami/Documents/Claude仕事/ai-review-comments/cli/ai-review.mjs"
+property cliPath : "/path/to/ai-review-comments/cli/ai-review.mjs"
 
 on launchReview(posixPath)
 	set q to quoted form of posixPath

@@ -2,10 +2,10 @@
 # AI Review インストーラ（社内配布用 / 自動パス検出版）
 #
 # 受け取った人がダブルクリックするだけで AI Review.app を組み立てます。
-# 宇佐見さん専用に焼き付いていた node / CLI のパスを、この人のMac用に自動解決します。
+# 開発者用に焼き付いていた node / CLI のパスを、この人のMac用に自動解決します。
 #
 # 検証用に環境変数で出力先を上書きできます:
-#   APP_NAME="AI Review TEST" APP_DIR=/tmp/airev-test BUNDLE_ID=co.lifepepper.aireview.test ./install.command
+#   APP_NAME="AI Review TEST" APP_DIR=/tmp/airev-test BUNDLE_ID=com.example.aireview.test ./install.command
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"   # .../ai-review-comments/macos
@@ -16,7 +16,7 @@ TEMPLATE="$HERE/AI-Review.applescript.in"
 APP_NAME="${APP_NAME:-AI Review}"
 APP_DIR="${APP_DIR:-/Applications}"
 APP="$APP_DIR/$APP_NAME.app"
-BUNDLE_ID="${BUNDLE_ID:-co.lifepepper.aireview}"
+BUNDLE_ID="${BUNDLE_ID:-com.example.aireview}"
 
 PB=/usr/libexec/PlistBuddy
 LSREG=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister

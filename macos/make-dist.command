@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# 配布ZIPを作る（配る人=宇佐見さん用）。ダブルクリックで実行。
-# node_modules / dist / .git / *.vsix 等を除いた軽量パッケージを Output/ に作成します。
+# 配布ZIPを作る（管理者用）。ダブルクリックで実行。
+# node_modules / dist / .git / *.vsix 等を除いた軽量パッケージを作成します。
 #
 # 出力先・ZIP名・中のフォルダ名はすべて ASCII に固定。
 # （日本語のフォルダ/ファイル名は macOS の NFC/NFD 正規化でシェルの find/glob/zip が
@@ -9,11 +9,11 @@ set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"   # .../ai-review-comments/macos
 REPO="$(cd "$HERE/.." && pwd)"                          # .../ai-review-comments
-OUT_BASE="/Users/junusami/Documents/Claude仕事/Output/ai-review-distribution"
+OUT_BASE="${OUT_BASE:-$HOME/Desktop/ai-review-distribution}"
 KIT="ai-review-setup-kit"                               # ASCII固定
 STAGE="$OUT_BASE/$KIT"
 ZIP="$OUT_BASE/$KIT.zip"
-GUIDE="$OUT_BASE/README.html"
+GUIDE="$REPO/SETUP.html"
 
 echo "==> 配布パッケージを作成します"
 [ -d "$REPO/cli" ] || { echo "✗ リポジトリが見つかりません: $REPO"; exit 1; }
