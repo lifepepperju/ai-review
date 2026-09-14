@@ -1,5 +1,7 @@
 # AI Review Comments
 
+> 🏢 **LIFE PEPPER社内配布版**: セットアップ手順は [`SETUP.html`](SETUP.html) を参照してください（Claude Codeスキル／macOS右クリック連携の2種類）。本体は [ykitaza/ai-review-comments](https://github.com/ykitaza/ai-review-comments)（MIT License）です。
+
 任意のファイルをサイドパネルでレビューし、**レンダリング結果または生の行に
 コメントを付けて、AI 向けの修正プロンプトをコピー**できる VS Code 拡張です。
 コピーした内容は Claude Code / Copilot / ChatGPT などにそのまま貼り付けられます。

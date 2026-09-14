@@ -1,0 +1,136 @@
+<meta charset="utf-8">
+<title>AI Review セットアップ手順（社内配布版）</title>
+<style>
+  *{ box-sizing:border-box; }
+  body{ font-family:-apple-system,"Hiragino Kaku Gothic ProN","Helvetica Neue",Arial,sans-serif; color:#1d2433; background:#f7f9fc; line-height:1.75; margin:0; padding:32px 18px 80px; }
+  .wrap{ max-width:760px; margin:0 auto; }
+  h1{ font-size:24px; margin:0 0 4px; }
+  .lead{ color:#5b6b80; margin:0 0 28px; font-size:14px; }
+  h2{ font-size:18px; margin:34px 0 12px; padding-bottom:8px; border-bottom:2px solid #e4e8ef; }
+  .step{ background:#fff; border:1px solid #e4e8ef; border-radius:12px; padding:18px 20px; margin:14px 0; box-shadow:0 1px 2px rgba(20,40,80,.04); }
+  .step h3{ margin:0 0 8px; font-size:16px; display:flex; align-items:center; gap:10px; }
+  .num{ flex:0 0 28px; width:28px; height:28px; border-radius:50%; background:#2f6df6; color:#fff; font-size:14px; display:inline-flex; align-items:center; justify-content:center; font-weight:600; }
+  code{ background:#eef1f6; padding:2px 6px; border-radius:5px; font-size:13px; font-family:"SF Mono",Menlo,Consolas,monospace; }
+  .box{ border-radius:10px; padding:12px 14px; margin:12px 0; font-size:14px; }
+  .warn{ background:#fdecea; border:1px solid #f5c6c0; color:#922; }
+  .tip{ background:#eaf3ee; border:1px solid #bfe0cd; color:#1e6b45; }
+  .note{ background:#eef3fd; border:1px solid #cdddfb; color:#274b8e; }
+  ul{ margin:8px 0; padding-left:22px; }
+  li{ margin:5px 0; }
+  b{ color:#10243f; }
+  .kbd{ background:#fff; border:1px solid #c9d2e0; border-bottom-width:2px; border-radius:5px; padding:1px 7px; font-size:13px; }
+  .small{ font-size:13px; color:#5b6b80; }
+  .pill{ display:inline-block; font-size:12px; font-weight:600; padding:2px 10px; border-radius:999px; margin-left:8px; }
+  .pill.a{ background:#eaf3ee; color:#1e6b45; }
+  .pill.b{ background:#eef3fd; color:#274b8e; }
+</style>
+<div class="wrap">
+
+<h1>🔍 AI Review セットアップ手順（社内配布版）</h1>
+<p class="lead">このZIP／リポジトリには2つの機能が入っています。必要な方（両方でもOK）だけセットアップしてください。所要時間はどちらも5分ほどです。</p>
+
+<div class="box note">
+  <b>A. Claude Codeスキル</b><span class="pill a">Claude Codeを使っている人向け</span><br>
+  「レビューコメントを反映して」と話しかけるだけで、AI Reviewで付けたコメントを読み取って修正・書き戻しをしてくれます。
+</div>
+<div class="box note">
+  <b>B. 右クリック連携（AI Review.app）</b><span class="pill b">Mac・cmux／Finderを使っている人向け</span><span class="small">（Windows不可）</span><br>
+  HTMLファイルを右クリック →「このアプリケーションで開く」から、ブラウザでページを見ながらコメントを残せます。
+</div>
+
+<h2>A. Claude Codeスキルの導入</h2>
+<div class="step">
+  <h3><span class="num">1</span>スキルフォルダをコピーする</h3>
+  このリポジトリの中の <code>skills/ai-review</code> フォルダを、まるごと以下の場所にコピーします。
+  <ul>
+    <li>コピー先: <code>~/.claude/skills/ai-review/</code></li>
+    <li>ターミナルを使う場合:</li>
+  </ul>
+  <code>cp -r skills/ai-review ~/.claude/skills/ai-review</code>
+  <div class="small" style="margin-top:8px">既に <code>~/.claude/skills/ai-review</code> がある場合は上書きでOKです。</div>
+</div>
+<div class="step">
+  <h3><span class="num">2</span>Claude Codeを再起動する</h3>
+  一度 Claude Code を終了して開き直すと、スキルが読み込まれます。<br>
+  会話の中で「<b>ai-reviewのコメントを反映して</b>」のように話しかけると起動します。
+</div>
+
+<h2>B. 右クリック連携（AI Review.app）の導入</h2>
+
+<h2 style="border:none; margin-top:0; padding-bottom:0; font-size:15px; color:#5b6b80;">はじめる前に（前提）</h2>
+<div class="step">
+  <ul>
+    <li><b>Mac であること。</b> Windows では使えません。</li>
+    <li><b>Node（ノード）が入っていること。</b> 入っていなくても、手順2でインストール方法を案内します。</li>
+    <li>このリポジトリ（またはZIP）を、<b>分かりやすい場所に置いて</b>おく（例: 書類フォルダ）。
+      <div class="small">⚠ セットアップ後にこのフォルダを<b>移動・名前変更しない</b>でください（場所がズレると動かなくなります。動かした場合は手順3をもう一度やればOK）。</div>
+    </li>
+  </ul>
+</div>
+
+<div class="step">
+  <h3><span class="num">1</span>フォルダを開く</h3>
+  このリポジトリ直下の <code>macos</code> フォルダを開きます。<br>
+  この中に <code>install.command</code> というファイルがあります。
+</div>
+
+<div class="step">
+  <h3><span class="num">2</span>Node が入っているか（入っていなければ入れる）</h3>
+  <p class="small" style="margin-top:0">手順3を実行して「Node が見つかりませんでした」と出た場合だけ、ここに戻ってください。</p>
+  <ul>
+    <li>かんたんなのは <a href="https://nodejs.org/">https://nodejs.org/</a> を開き、<b>LTS</b>（左側の推奨版）をダウンロードしてインストール。</li>
+    <li>Homebrew を使っている人は、ターミナルで <code>brew install node</code> でもOK。</li>
+  </ul>
+  入れ終わったら手順3に進みます。
+</div>
+
+<div class="step">
+  <h3><span class="num">3</span>インストーラを実行する</h3>
+  <p style="margin-top:0"><code>install.command</code> を <b>右クリック →「開く」</b> を選びます。</p>
+  <div class="box warn">
+    ⚠ <b>必ず「ダブルクリック」ではなく「右クリック →開く」</b>でください。初回はMacが「開発元を確認できません」と警告しますが、右クリックから開くと出てくる<b>「開く」ボタン</b>を押せば進めます（ダブルクリックだとブロックされます）。
+  </div>
+  <p>黒い画面（ターミナル）が開き、自動でセットアップが進みます。<br>
+  <code>✓ 組み立て完了</code> と表示されれば成功です。続いて<b>システム設定が自動で開きます</b>。</p>
+</div>
+
+<div class="step">
+  <h3><span class="num">4</span>フルディスクアクセスを許可する（いちばん大事）</h3>
+  <p style="margin-top:0">自動で開いた <b>「プライバシーとセキュリティ → フルディスクアクセス」</b> の画面で:</p>
+  <ul>
+    <li>左下あたりの <span class="kbd">＋</span> を押す</li>
+    <li>開いたフォルダ（アプリケーション）から <b>「AI Review」</b> を選ぶ</li>
+    <li><b>スイッチを ON</b> にする</li>
+  </ul>
+  <div class="box warn">
+    ⚠ この許可をしないと、ファイルを開いても<b>何も起きません（無反応）</b>。必ずONにしてください。
+  </div>
+</div>
+
+<h2>使い方（右クリック連携）</h2>
+<div class="step">
+  <h3><span class="num">✓</span>HTMLを開いてレビューする</h3>
+  <ul>
+    <li>cmux や Finder で、レビューしたい <b>HTMLファイルを右クリック</b></li>
+    <li><b>「このアプリケーションで開く」→「AI Review」</b> を選ぶ</li>
+    <li>ブラウザが開き、ページ上で気になる箇所にコメントを残せます</li>
+    <li>ブラウザのタブを閉じると、レビュー用のサーバーは自動で終了します</li>
+  </ul>
+  <div class="box tip">
+    💡 一覧に「AI Review」が出ないときは「その他…」や「すべてのアプリケーション」を選ぶと出てきます。
+  </div>
+</div>
+
+<h2>うまく動かないとき</h2>
+<div class="step">
+  <ul>
+    <li><b>開いても何も起きない</b> → 手順4のフルディスクアクセスがONか確認。</li>
+    <li><b>フォルダを移動・名前変更してしまった</b> → 手順3（<code>install.command</code> を右クリック→開く）をもう一度実行。</li>
+    <li><b>エラーの中身を見たい</b> → <code>~/Library/Logs/ai-review.log</code> にログが残ります。</li>
+    <li>それでも解決しないときは、このログを添えて宇佐見さんに連絡してください。</li>
+  </ul>
+</div>
+
+<p class="small" style="margin-top:30px; text-align:center; color:#9aa6b8;">AI Review Comments / 社内配布版 — 株式会社Lifepepper<br>本体は ykitaza/ai-review-comments（MIT License）をベースに、右クリック連携とClaude Codeスキルを追加したものです。</p>
+
+</div>
